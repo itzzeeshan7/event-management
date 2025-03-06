@@ -16,6 +16,7 @@ export class EventFormComponent implements OnInit {
   isLoading: boolean = false;
   eventForm:FormGroup
   usersList: any[] = []
+  eventId:any
   constructor(
     private eventService: EventService,
     private route: ActivatedRoute,
@@ -34,19 +35,26 @@ export class EventFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.eventId = params['id'];
+      if (this.eventId) {
+        this.getEventById();
+      }
+    });
+  
     this.userService.getUsers().subscribe((users) => {
       this.usersList = users;
     });
-   this.getEventById()
-    console.log(this.isEditMode)
+  
+    console.log(this.isEditMode);
   }
+  
   getEventById() {
-    this.route.queryParams.subscribe(params => {
-      if (params['id']) {
+        console.log('hereeee')
         this.isEditMode = true;
         this.isLoading = true;
   
-        this.eventService.getEventById(params['id']).subscribe(event => {
+        this.eventService.getEventById(this.eventId).subscribe(event => {
           this.isLoading = false;
           
           if (event) {
@@ -58,7 +66,7 @@ export class EventFormComponent implements OnInit {
               name: event.name || '',
               location: event.location || '',
               date: formattedDate, 
-              participants: event.participants ? event.participants.map((user: any) => user._id) : []
+              participants: event.participants
             });
           }
         }, error => {
@@ -66,8 +74,7 @@ export class EventFormComponent implements OnInit {
           console.error("Error fetching event:", error);
           this.toastr.error("Failed to load event details");
         });
-      }
-    });
+      
   }
   
   saveEvent() {

@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-declare var bootstrap: any;  // Required for Bootstrap modal handling
 
 @Component({
   selector: 'app-confirmation-modal',
