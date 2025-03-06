@@ -10,7 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class RegisterComponent {
   registerForm: FormGroup;
-
+  isLoading:boolean=false
   constructor(private fb: FormBuilder, private authService: AuthService, private toastr: ToastrService) {
     this.registerForm = this.fb.group({
       name: ['', Validators.required],
@@ -21,13 +21,16 @@ export class RegisterComponent {
   }
 
   register() {
+    this.isLoading=true
     if (this.registerForm.valid) {
       this.authService.register(this.registerForm.value).subscribe({
         next: () => {
+          this.isLoading=false
           this.registerForm.reset();
           this.toastr.success('Registration successful. Verify your email.');
         },
         error: (error) => {
+          this.isLoading=false
           this.toastr.error('Registration Failed', error);
         },
       })
