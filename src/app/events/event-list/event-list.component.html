@@ -36,7 +36,7 @@
           <button *ngIf="isAdmin && event.status!=='Approved'" (click)="approveEvent(event._id)" class="btn btn-info">Approve</button>
           
           <button *ngIf="isAdmin || isEventOwner(event)" (click)="editEvent(event)" class="btn btn-warning">Edit</button>
-          <button *ngIf="isAdmin || isEventOwner(event)" (click)="openModel(event._id)" class="btn btn-danger">Delete</button>
+          <button *ngIf="isAdmin || isEventOwner(event)" (click)="openModel(event._id)" class="btn delete btn-danger">Delete</button>
         </div>
       </li>
     </ul>
